@@ -52,7 +52,7 @@ agent-task-system/
 │   │   │
 │   │   ├── agent/
 │   │   │   ├── controller.py          # orchestrator
-│   │   │   ├── classifier.py          # desision logic
+│   │   │
 │   │   │
 │   │   ├── tools/
 │   │   │   ├── base_tool.py           # interface
