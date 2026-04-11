@@ -90,7 +90,7 @@ agent-task-system/
 
 ## Prerquisites
 
-- Python
+- Python 3.11+
 - ***
 
 ## How to Run
@@ -109,7 +109,33 @@ python -m venv .venv
 python3 -m venv .venv
 source .venv/bin/activate
 
+# Install dependencies
 pip install -r requirements.txt
+
+# Start the server
+# Windows
+$env:PYTHONPATH = "app" ; .venv\Scripts\python.exe -m uvicorn app.main:app --reload
+
+# Mac / Linux
+PYTHONPATH=app .venv/bin/uvicorn app.main:app --reload
+
+```
+
+- Server runs at: http://localhost:8000
+- Interactive API docs or Swagger: http://localhost:8000/docs
+
+```json
+// Post /task
+// In Swagger, click "Try it out" then replace the body with one of these and click "Execute"
+
+{ "task": "uppercase: hello world" }
+{ "task": "3 + 5" }
+{ "task": "weather in Paris" }
+{ "task": "count: one two three four" }
+
+// GET /tasks
+// In Swagger, click "Try it out" then click "Execute"
+// This will return the full history of all tasks saved to the DB
 
 ```
 
@@ -117,6 +143,9 @@ pip install -r requirements.txt
 
 ```bash
 cd backend/test
+
+# Run unit tests and save the results in a log file
+.venv\Scripts\python.exe -m pytest test/test_backend_unit.py -v > test/unit_test_results.log 2>&1
 
 ```
 

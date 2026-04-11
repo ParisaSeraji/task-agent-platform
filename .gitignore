@@ -4,6 +4,10 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+# Test artifacts
+test_results.log
+test_results.xml
+
 # C extensions
 *.so
 
