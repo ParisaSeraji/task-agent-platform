@@ -39,6 +39,18 @@ The system follows a layered architecture:
 
 ### Sequence Diagram
 
+#### Task Submission Flow
+
+![Task Submission Sequence](docs/sequence_task_submission.png)
+
+#### History Load Flow
+
+![History Load Sequence](docs/sequence_history.png)
+
+### Class Diagram
+
+![Class Diagram](docs/class_diagram.png)
+
 ---
 
 ## Repository Structure
@@ -91,8 +103,9 @@ agent-task-system/
 │   └── package.json
 │
 ├── docs/
-│   ├──HLD.png
-│   ├── sequence_diagram.png
+│   ├── HLD.drawio.png
+│   ├── sequence_task_submission.png
+│   ├── sequence_history.png
 │   └── class_diagram.png
 │
 ├── .gitignore
@@ -222,7 +235,7 @@ The HTML report is saved to `frontend/test-report/index.html` (excluded from git
 - Each component is a pure presentational component receiving props from App.jsx, keeping state management centralised
 - Vite proxy forwards API calls to the backend, avoiding CORS issues in development
 - Vitest with React Testing Library for component tests — no browser or running server needed
-- Components: `TaskForm` (input + submission), `ResultPanel` (tool badge + result), `TracePanel` (execution steps), `HistoryPanel` (past tasks — in progress)
+- Components: `TaskForm` (input + submission), `ResultPanel` (tool badge + result), `TracePanel` (execution steps), `HistoryPanel` (past tasks)
 
 ### Backend
 
@@ -238,9 +251,9 @@ The HTML report is saved to `frontend/test-report/index.html` (excluded from git
 
 ## Time Spent
 
-- Architecture and design:
-- Frontend dev:
-- Backend dev:
+- Architecture and design: 5-6 hrs
+- Frontend dev: 7-8 hrs
+- Backend dev: 5-6 hrs
 
 ---
 
