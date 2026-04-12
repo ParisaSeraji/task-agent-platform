@@ -91,7 +91,7 @@ agent-task-system/
 ## Prerquisites
 
 - Python 3.11+
-- ***
+- Node 18+
 
 ## How to Run
 
@@ -158,10 +158,37 @@ cd frontend
 
 ### Frontend Test
 
+#### Vitest and React Testing Library
+
+This a simple option to test th UI and needs no browser. It needs to be installed using the following command
+
 ```bash
-cd frontend/test
+cd frontend
+
+npm install -D @testing-library/react @testing-library/jest-dom @testing-library/user-event jsdom
+
+# Run tests:
+
+npm test
 
 ```
+
+However Vitest has a built-in browser UI.
+
+```bash
+# Install it
+
+cd frontend
+
+npm install -D @vitest/ui@1 --legacy-peer-deps
+
+# Run the test
+
+npm test -- --ui
+
+```
+
+This generates "frontend/test-report/index.html" and automatically opend in Chrome
 
 ---
 
