@@ -72,6 +72,10 @@ button, input { font: inherit; }
   overflow: hidden;
 }
 
+.card.card-full-width {
+  grid-column: 1 / -1;
+}
+
 .card-header {
   padding: 13px 20px;
   border-bottom: 1px solid var(--border);
@@ -149,4 +153,26 @@ button, input { font: inherit; }
 }
 
 .result-task-label { margin-top: 8px; font-size: 12px; color: var(--muted); }
+
+/* TracePanel */
+.trace-empty { color: var(--muted); font-size: 14px; }
+
+.trace-steps { display: flex; flex-direction: column; gap: 10px; }
+
+.trace-step {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.step-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--primary);
+  border-radius: 50%;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
 

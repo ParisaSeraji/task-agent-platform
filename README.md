@@ -71,9 +71,23 @@ agent-task-system/
 │
 ├── frontend/
 │   ├── src/
+│   │   ├── App.jsx
+│   │   ├── api.js
+│   │   ├── components/
+│   │   │   ├── TaskForm.jsx
+│   │   │   ├── ResultPanel.jsx
+│   │   │   ├── TracePanel.jsx
+│   │   │
+│   │   └── App.css
 │   │
 │   ├── test/
+│   │    ├── TaskForm.test.jsx
+│   │    ├── ResultPanel.test.jsx
+│   │    ├── TracePanel.test.jsx
 │   │
+│   ├── setupTests.js
+│   ├── index.html
+│   ├── vite.config.js
 │   └── package.json
 │
 ├── docs/
@@ -88,7 +102,7 @@ agent-task-system/
 
 ---
 
-## Prerquisites
+## Prerequisites
 
 - Python 3.11+
 - Node 18+
@@ -142,11 +156,13 @@ PYTHONPATH=app .venv/bin/uvicorn app.main:app --reload
 ### Backend Test
 
 ```bash
-cd backend/test
+cd backend
 
-# Run unit tests and save the results in a log file
+# Run unit tests
+.venv\Scripts\python.exe -m pytest test/test_backend_unit.py -v
+
+# Save results to a log file
 .venv\Scripts\python.exe -m pytest test/test_backend_unit.py -v > test/unit_test_results.log 2>&1
-
 ```
 
 ### Frontend
@@ -154,54 +170,77 @@ cd backend/test
 ```bash
 cd frontend
 
+# Install dependencies
+npm install
+
+# Start the dev server
+npm start
 ```
+
+- App runs at: http://localhost:5173
+- Requires the backend to be running at http://localhost:8000
 
 ### Frontend Test
 
-#### Vitest and React Testing Library
-
-This a simple option to test th UI and needs no browser. It needs to be installed using the following command
+Frontend tests use Vitest and React Testing Library — no browser required.
 
 ```bash
 cd frontend
 
-npm install -D @testing-library/react @testing-library/jest-dom @testing-library/user-event jsdom
+# Run tests in terminal
+npm test -- --run
 
-# Run tests:
-
-npm test
-
-```
-
-However Vitest has a built-in browser UI.
-
-```bash
-# Install it
-
-cd frontend
-
-npm install -D @vitest/ui@1 --legacy-peer-deps
-
-# Run the test
-
+# Run tests and open interactive browser UI
 npm test -- --ui
-
 ```
 
-This generates "frontend/test-report/index.html" and automatically opend in Chrome
+The `--ui` mode opens a live dashboard at `http://localhost:51204/__vitest__/` and re-runs tests on file changes.
+The HTML report is saved to `frontend/test-report/index.html` (excluded from git).
 
 ---
 
 ## Design Decisions
 
+### Assumptions
+
+- Input is plain English or simple arithmetic expressions
+- Tasks are single-step: one input maps to one tool and one result
+- Weather data does not need to be real; a mock response is sufficient for this demo
+- No integration with external model providers (OpenAI, Azure, AWS) is required
+- Single user — no authentication or authorisation is required
+
+### Overall
+
 - Rule-based task classification for simplicity and determinism
 - Tool abstraction for extensibility
 - Separation of concerns across layers
+- SOLID principle compliance throughout
+
+### Frontend
+
+### Backend
+
+- Reactive/reflexive agent: perceive input → match against rules → execute action
+- Rules are defined as separate tools (`TextTool`, `CalculatorTool`, `WeatherTool`), making the design extensible for future improvements
+- Agent, Storage, and Tools are isolated packages to enforce separation of concerns and mirror LLM-based agentic system structure
+- Storage package has an abstract base class (`Storage`) enabling alternative database backends; currently implements SQLite to store task output, metadata, and execution steps
+- Agent controller acts as task orchestrator: receives input, selects a tool via `ToolRegistry`, executes it, builds a 4-step execution trace, and returns the result
+- `ToolRegistry` iterates registered tools in priority order and returns the first match via `can_handle()` — no separate classifier needed
+- `main.py` is the API entry point, exposing `POST /task` (process and persist) and `GET /tasks` (retrieve history) with Pydantic request validation
+
+---
+
+## Time Spent
+
+- Architecture and design:
+- Frontend dev:
+- Backend dev:
 
 ---
 
 ## Future Improvements
 
-- LLM-based task understanding
-
----
+- **LLM-based task understanding** — replace rule-based routing with an LLM classifier for more flexible and natural input handling
+- **Multi-step task chaining** — decompose compound inputs into sequential steps, execute multiple tools, and combine results (e.g. `"count words in 'hello world' and multiply by 5"` → `WordCount` → `Calculator`); detection approach: split on `"and"` / `"then"`
+- **Multi-user support** — add authentication and authorisation for concurrent users
+- **Live weather data** — replace the mock with a real provider (e.g. OpenWeatherMap API)

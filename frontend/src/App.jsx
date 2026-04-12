@@ -1,6 +1,7 @@
 import { useState } from "react";
 import TaskForm from "./components/TaskForm";
 import ResultPanel from "./components/ResultPanel";
+import TracePanel from "./components/TracePanel";
 import { submitTask } from "./api";
 
 export default function App() {
@@ -40,6 +41,13 @@ export default function App() {
           <div className="card-header">Result</div>
           <div className="card-body">
             <ResultPanel result={active} />
+          </div>
+        </div>
+
+        <div className="card card-full-width">
+          <div className="card-header">Execution Trace</div>
+          <div className="card-body">
+            <TracePanel result={active} />
           </div>
         </div>
       </main>
