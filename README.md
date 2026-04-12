@@ -77,14 +77,14 @@ agent-task-system/
 │   │   │   ├── TaskForm.jsx
 │   │   │   ├── ResultPanel.jsx
 │   │   │   ├── TracePanel.jsx
-│   │   │
+│   │   │   └── HistoryPanel.jsx
 │   │   └── App.css
 │   │
 │   ├── test/
 │   │    ├── TaskForm.test.jsx
 │   │    ├── ResultPanel.test.jsx
 │   │    ├── TracePanel.test.jsx
-│   │
+│   │    └── HistoryPanel.test.jsx
 │   ├── setupTests.js
 │   ├── index.html
 │   ├── vite.config.js
@@ -218,6 +218,12 @@ The HTML report is saved to `frontend/test-report/index.html` (excluded from git
 
 ### Frontend
 
+- Gradual component development: TaskForm and ResultPanel first, TracePanel and HistoryPanel added incrementally
+- Each component is a pure presentational component receiving props from App.jsx, keeping state management centralised
+- Vite proxy forwards API calls to the backend, avoiding CORS issues in development
+- Vitest with React Testing Library for component tests — no browser or running server needed
+- Components: `TaskForm` (input + submission), `ResultPanel` (tool badge + result), `TracePanel` (execution steps), `HistoryPanel` (past tasks — in progress)
+
 ### Backend
 
 - Reactive/reflexive agent: perceive input → match against rules → execute action
@@ -244,3 +250,4 @@ The HTML report is saved to `frontend/test-report/index.html` (excluded from git
 - **Multi-step task chaining** — decompose compound inputs into sequential steps, execute multiple tools, and combine results (e.g. `"count words in 'hello world' and multiply by 5"` → `WordCount` → `Calculator`); detection approach: split on `"and"` / `"then"`
 - **Multi-user support** — add authentication and authorisation for concurrent users
 - **Live weather data** — replace the mock with a real provider (e.g. OpenWeatherMap API)
+- **Improve UI look and feel** — create a Figma design system, improve color contrast, add more functionalities, and enhance user experience
