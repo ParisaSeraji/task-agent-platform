@@ -272,3 +272,6 @@ packages/react-devtools-timeline/dist
 frontend/package-lock.json
 # Frontend test report output
 frontend/test-report/
+
+# Vite dependency cache
+frontend/.vite/
