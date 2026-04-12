@@ -23,4 +23,4 @@ class WeatherTool(Tool):
             if word in ("in", "for") and i + 1 < len(words):
                 city = words[i + 1].capitalize()
                 break
-        return f"{city}: Sunny, 25\u00b0C (mock)"
+        return f"{city}: Sunny, 25\u00b0C"
