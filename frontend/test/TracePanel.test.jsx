@@ -26,11 +26,21 @@ describe("TracePanel", () => {
     });
   });
 
-  // Each step is rendered inside its own .trace-step container so the CSS
-  // can style them individually with the dot indicator.
   it("renders the correct number of step elements", () => {
     const steps = ["Step 1", "Step 2", "Step 3"];
     render(<TracePanel result={{ steps }} />);
     expect(document.querySelectorAll(".trace-step")).toHaveLength(3);
+  });
+
+  it("shows run timestamp when result has timestamp", () => {
+    const steps = ["Step 1"];
+    render(<TracePanel result={{ steps, timestamp: "2026-04-12T10:00:00" }} />);
+    expect(screen.getByText(/run at/i)).toBeInTheDocument();
+  });
+
+  it("does not show run timestamp when timestamp is absent", () => {
+    const steps = ["Step 1"];
+    render(<TracePanel result={{ steps }} />);
+    expect(screen.queryByText(/run at/i)).not.toBeInTheDocument();
   });
 });

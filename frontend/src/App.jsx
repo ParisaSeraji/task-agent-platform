@@ -40,10 +40,12 @@ export default function App() {
 
   const handleSelectHistory = (item) => {
     setActive({
+      id: item.id,
       result: item.result,
       steps: item.steps,
       tool: item.tool,
       task: item.task,
+      timestamp: item.timestamp,
     });
   };
 

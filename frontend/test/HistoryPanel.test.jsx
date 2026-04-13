@@ -63,7 +63,7 @@ describe("HistoryPanel", () => {
   });
 
   it("marks the active item with the active class", () => {
-    const active = { task: "hello world" };
+    const active = { id: 2 };
     const { container } = render(
       <HistoryPanel
         history={mockHistory}

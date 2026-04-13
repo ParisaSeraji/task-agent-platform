@@ -12,7 +12,12 @@ export default function HistoryPanel({ history, active, onSelect, onRefresh }) {
   const formatTime = (ts) => {
     if (!ts) return "";
     const d = new Date(ts);
-    return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    return d.toLocaleString([], {
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
 
   return (
@@ -21,7 +26,7 @@ export default function HistoryPanel({ history, active, onSelect, onRefresh }) {
         {history.map((item) => (
           <div
             key={item.id}
-            className={`history-item ${active?.task === item.task ? "active" : ""}`}
+            className={`history-item ${active?.id === item.id ? "active" : ""}`}
             onClick={() => onSelect(item)}
           >
             <span className="history-task" title={item.task}>
