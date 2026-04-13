@@ -6,6 +6,7 @@ Exposes two endpoints:
   GET  /tasks  - Retrieve the full history of processed tasks.
 """
 
+from datetime import datetime
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -35,10 +36,9 @@ class TaskRequest(BaseModel):
 def run_task(payload: TaskRequest):
     """Process a task through the agent and persist the result."""
     response = agent.handle_task(payload.task)
-    storage.save(
-        payload.task, response["result"], response["steps"], response.get("tool")
-    )
-    return response
+    timestamp = datetime.now().isoformat()
+    storage.save(payload.task, response["result"], response["steps"], response.get("tool"), timestamp)
+    return {**response, "timestamp": timestamp}
 
 
 @app.get("/tasks")

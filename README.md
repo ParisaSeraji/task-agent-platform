@@ -78,7 +78,7 @@ agent-task-system/
 │   │       ├── sqlite_storage.py
 │   │
 │   ├── test/
-│   │
+│   ├── Dockerfile
 │   └── requirements.txt
 │
 ├── frontend/
@@ -166,6 +166,22 @@ PYTHONPATH=app .venv/bin/uvicorn app.main:app --reload
 
 ```
 
+### Backend (Docker)
+
+The backend can be run as a Docker container using the provided Dockerfile.
+
+```bash
+# Build the image
+docker build -t task-agent-backend ./backend
+
+# Run the container
+docker run -p 8000:8000 task-agent-backend
+
+```
+
+- Server runs at: http://localhost:8000
+- SQLite database is stored inside the container (resets on restarting the container) or volume mounting is needed for data persistence
+
 ### Backend Test
 
 ```bash
@@ -246,6 +262,7 @@ The HTML report is saved to `frontend/test-report/index.html` (excluded from git
 - Agent controller acts as task orchestrator: receives input, selects a tool via `ToolRegistry`, executes it, builds a 4-step execution trace, and returns the result
 - `ToolRegistry` iterates registered tools in priority order and returns the first match via `can_handle()` — no separate classifier needed
 - `main.py` is the API entry point, exposing `POST /task` (process and persist) and `GET /tasks` (retrieve history) with Pydantic request validation
+- Added Dockerfile if containerization is needed
 
 ---
 

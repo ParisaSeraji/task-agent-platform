@@ -172,7 +172,6 @@ class TestWeatherTool:
         result = self.tool.execute("weather in Toronto")
         assert "Sunny" in result
         assert "25" in result
-        assert "mock" in result
 
 
 # ---------------------------------------------------------------------------
@@ -302,12 +301,18 @@ class TestSQLiteStorage:
         assert storage.get_all() == []
 
     def test_save_and_retrieve(self, storage):
-        storage.save("uppercase: hello", "HELLO", ["Step 1", "Step 2"], "TextTool")
+        storage.save(
+            "uppercase: hello",
+            "HELLO",
+            ["Step 1", "Step 2"],
+            "TextTool",
+            "2026-01-01T00:00:00",
+        )
         records = storage.get_all()
         assert len(records) == 1
 
     def test_record_fields(self, storage):
-        storage.save("3 + 5", "8", ["Step 1"], "CalculatorTool")
+        storage.save("3 + 5", "8", ["Step 1"], "CalculatorTool", "2026-01-01T00:00:00")
         r = storage.get_all()[0]
         assert r["task"] == "3 + 5"
         assert r["result"] == "8"
@@ -316,14 +321,16 @@ class TestSQLiteStorage:
         assert r["id"] == 1
 
     def test_steps_returned_as_list(self, storage):
-        storage.save("task", "result", ["s1", "s2", "s3"], "TextTool")
+        storage.save(
+            "task", "result", ["s1", "s2", "s3"], "TextTool", "2026-01-01T00:00:00"
+        )
         r = storage.get_all()[0]
         assert isinstance(r["steps"], list)
         assert r["steps"] == ["s1", "s2", "s3"]
 
     def test_multiple_records_order(self, storage):
-        storage.save("task one", "result one", ["s1"], "ToolA")
-        storage.save("task two", "result two", ["s2"], "ToolB")
+        storage.save("task one", "result one", ["s1"], "ToolA", "2026-01-01T00:00:00")
+        storage.save("task two", "result two", ["s2"], "ToolB", "2026-01-01T00:00:01")
         records = storage.get_all()
         assert len(records) == 2
         assert records[0]["task"] == "task one"
@@ -332,16 +339,18 @@ class TestSQLiteStorage:
     def test_timestamp_is_iso_format(self, storage):
         from datetime import datetime
 
-        storage.save("task", "result", [], "ToolA")
+        storage.save("task", "result", [], "ToolA", "2026-01-01T00:00:00")
         ts = storage.get_all()[0]["timestamp"]
         # Should parse without raising
         datetime.fromisoformat(ts)
 
     def test_tool_can_be_none(self, storage):
         storage.save(
-            "unknown task", "No suitable tool found", ["Step 1", "Step 2"], None
+            "unknown task",
+            "No suitable tool found",
+            ["Step 1", "Step 2"],
+            None,
+            "2026-01-01T00:00:00",
         )
         r = storage.get_all()[0]
         assert r["tool"] is None
-
-

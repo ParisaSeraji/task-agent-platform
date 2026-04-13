@@ -1,6 +1,5 @@
 import sqlite3
 import json
-from datetime import datetime
 from .storage import Storage
 
 
@@ -33,7 +32,7 @@ class SQLiteStorage(Storage):
         self.conn.execute(query)
         self.conn.commit()
 
-    def save(self, task, result, steps, tool):
+    def save(self, task, result, steps, tool, timestamp):
         """Insert a new task record. Steps list is JSON-serialised."""
 
         query = """
@@ -41,7 +40,7 @@ class SQLiteStorage(Storage):
         VALUES (?, ?, ?, ?, ?)
         """
         self.conn.execute(
-            query, (task, result, json.dumps(steps), tool, datetime.now().isoformat())
+            query, (task, result, json.dumps(steps), tool, timestamp)
         )
         self.conn.commit()
 
