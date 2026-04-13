@@ -1,0 +1,45 @@
+﻿> task-agent-frontend@1.0.0 test
+> vitest --run
+
+The CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.
+
+ RUN  v1.6.1 C:/Users/Parisa/Desktop/task-agent-platform/frontend
+
+ ✓ test/TracePanel.test.jsx (6)
+   ✓ TracePanel (6)
+     ✓ shows empty state when result is null
+     ✓ shows empty state when steps array is empty
+     ✓ renders all steps when result has steps
+     ✓ renders the correct number of step elements
+     ✓ shows run timestamp when result has timestamp
+     ✓ does not show run timestamp when timestamp is absent
+ ✓ test/ResultPanel.test.jsx (4)
+   ✓ ResultPanel (4)
+     ✓ shows empty state when result is null
+     ✓ displays the result value
+     ✓ displays the tool badge
+     ✓ displays the task label
+ ✓ test/HistoryPanel.test.jsx (5)
+   ✓ HistoryPanel (5)
+     ✓ shows empty state when history is empty
+     ✓ renders all history items
+     ✓ calls onSelect with the clicked item
+     ✓ marks the active item with the active class
+     ✓ calls onRefresh when the refresh button is clicked
+ ✓ test/TaskForm.test.jsx (7) 857ms
+   ✓ TaskForm (7) 857ms
+     ✓ renders the input and submit button
+     ✓ submit button is disabled when input is empty
+     ✓ submit button is enabled when input has text 303ms
+     ✓ calls onSubmit with the trimmed input value
+     ✓ disables input and button while loading
+     ✓ shows error message when error prop is provided
+     ✓ does not call onSubmit when input is only whitespace
+
+ Test Files  4 passed (4)
+      Tests  22 passed (22)
+   Start at  01:33:32
+   Duration  3.20s (transform 259ms, setup 1.44s, collect 702ms, tests 1.21s, environment 4.48s, prepare 1.09s)
+
+ HTML  Report is generated
+       You can run npx vite preview --outDir test-report to see the test results.

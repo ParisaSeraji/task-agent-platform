@@ -77,7 +77,9 @@ agent-task-system/
 │   │       ├── storage.py             # interface
 │   │       ├── sqlite_storage.py
 │   │
-│   ├── test/
+│   ├── test
+│   │   ├── test_backend_unit.py
+│   │   └── unit_test_results.txt
 │   ├── Dockerfile
 │   └── requirements.txt
 │
@@ -96,7 +98,8 @@ agent-task-system/
 │   │    ├── TaskForm.test.jsx
 │   │    ├── ResultPanel.test.jsx
 │   │    ├── TracePanel.test.jsx
-│   │    └── HistoryPanel.test.jsx
+│   │    ├── HistoryPanel.test.jsx
+│   │    └── unit_test_results.txt
 │   ├── setupTests.js
 │   ├── index.html
 │   ├── vite.config.js
@@ -190,8 +193,8 @@ cd backend
 # Run unit tests
 .venv\Scripts\python.exe -m pytest test/test_backend_unit.py -v
 
-# Save results to a log file
-.venv\Scripts\python.exe -m pytest test/test_backend_unit.py -v > test/unit_test_results.log 2>&1
+# Save results to a text file
+.venv\Scripts\python.exe -m pytest test/test_backend_unit.py -v > test/unit_test_results.txt 2>&1
 ```
 
 ### Frontend
@@ -225,6 +228,8 @@ npm test -- --ui
 
 The `--ui` mode opens a live dashboard at `http://localhost:51204/__vitest__/` and re-runs tests on file changes.
 The HTML report is saved to `frontend/test-report/index.html` (excluded from git).
+
+**Note:** Test results are added in a text file named `unit_test_results.txt` in the folder named `test` for both backend and frontend
 
 ---
 
