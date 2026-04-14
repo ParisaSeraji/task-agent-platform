@@ -281,8 +281,29 @@ The HTML report is saved to `frontend/test-report/index.html` (excluded from git
 
 ## Future Improvements
 
-- **LLM-based task understanding** — replace rule-based routing with an LLM classifier for more flexible and natural input handling
-- **Multi-step task chaining** — decompose compound inputs into sequential steps, execute multiple tools, and combine results (e.g. `"count words in 'hello world' and multiply by 5"` → `WordCount` → `Calculator`); detection approach: split on `"and"` / `"then"`
-- **Multi-user support** — add authentication and authorisation for concurrent users
-- **Live weather data** — replace the mock with a real provider (e.g. OpenWeatherMap API)
-- **Improve UI look and feel** — create a Figma design system, improve color contrast, add more functionalities, and enhance user experience
+- **Add multi-step planning and tool chaining**  
+  Extend the controller with a lightweight `Planner` that decomposes compound requests into ordered steps, executes multiple tools in sequence, passes intermediate outputs between them, and combines results (e.g. `"count words in 'hello world' and multiply by 5"` → `WordCount` → `Calculator`). A simple detection approach can be: split on `"and"` / `"then"`.This would move the system from single-tool execution toward a small plan-and-execute workflow.
+
+- **Introduce utility-based tool selection**  
+  When multiple tools are eligible, the current registry could be extended with scoring logic based on confidence, latency, etc. This would make tool selection more robust and move the system closer to a **utility-based agent** model, where the best action is selected from several valid options rather than simply choosing the first match.
+
+- **Evolve the agent beyond a simple reflex pattern**  
+  The current implementation behaves like a lightweight reflex agent: it inspects the input, applies deterministic rules, and utilizes a matching tool. In the next step, we could introduce a **model-based or goal-based agent** that maintains task context, tracks states, and chooses actions based on an explicit objective rather than a predefined rule match.
+
+- **Improve observability with structured logging and metrics**  
+  Add structured application logs for task receipt, classification, tool selection, tool execution, persistence success/failure, and API responses,in order to make debugging easier and improve transparency during DEV and PROD stages.
+
+- **Add guardrails and safer execution paths**  
+  Introduce input validation and execution guardrails before tool invocation for rejecting unsupported calculator expressions, sanitizing malformed inputs, and returning fallback responses when no tool matches. For future LLM integration, this layer could be extended with prompt-injection defenses, output validation, and policy-based restrictions on which tools are allowed to run.
+
+- **Strengthen persistence and data modeling**  
+  SQLite is a good lightweight choice for the challenge, but the storage abstraction could later support PostgreSQL or another database backend without changing the agent or API layers, as well as including richer task metadata and indexed history queries.
+
+- **Improve frontend usability and trace inspection**  
+  The frontend could be enhanced with better task history filtering, expandable trace rows, loading and error states, and improve color contrast, ideally by creating a Figma design in advance.
+
+- **Support streaming execution updates**  
+  Instead of returning execution steps only at the end of a request, the backend could stream trace events incrementally so the frontend displays the agent’s progress in real time to make the app feel more interactive.
+
+- **Enable agent learnings**  
+  In a later version, tool-selection outcomes could be recorded and user feedback to evaluate whether routing decisions were correct. This could gradually support a lightweight **learning agent** pattern using historical examples and evaluation signals rather than relying only on predefined rules.
